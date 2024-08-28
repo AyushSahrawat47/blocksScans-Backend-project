@@ -14,7 +14,6 @@ const userSchema = new mongoose.Schema({
         unique: true, // Ensure unique email addresses
         trim: true,
         lowercase: true,
-        match: /.+\@.+\..+/ // Basic email validation
     },
     password: {
         type: String,
@@ -24,6 +23,10 @@ const userSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now // Automatically set the creation date
+    },
+    plan: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Plan'
     }
 });
 
