@@ -1,6 +1,7 @@
 const connectToMongo = require('./db');
 const express = require('express')
 var cors = require('cors') 
+const rateLimiter = require('./middleware/rateLimiter'); // Import the rate limiter middleware
 
 connectToMongo();
 const app = express()
@@ -14,7 +15,10 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/plans', require('./routes/plans'));
 
 // API Key Route
-app.use('/api/keys', require('./routes/keys')); // Assuming you create a keys route for API key management
+app.use('/api/keys',rateLimiter, require('./routes/keys')); 
+
+//Stats route
+app.use('/api/stats', require('./routes/stats')); 
 
 
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const crypto = require('crypto');
-const ApiKey = require('../models/ApiKey'); // Your API Key model
+const ApiKey = require('../models/ApiKey'); 
 const router = express.Router();
 
 // Helper function to generate a random API key

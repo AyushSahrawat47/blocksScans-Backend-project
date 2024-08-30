@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Plan = require('../models/Plan');
 
 // Get all users
 router.get('/get-all-users', async (req, res) => {
     try {
+        //this will return every object in User (which in terms is every user stored in database)
         const users = await User.find();
         res.json(users);
     } catch (error) {

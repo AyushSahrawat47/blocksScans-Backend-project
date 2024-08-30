@@ -1,12 +1,42 @@
 const express = require('express');
 const router = express.Router();
 const Plan = require('../models/Plan');
+const User = require('../models/User');
 
 // Get all plans
 router.get('/get-all-plans', async (req, res) => {
     try {
         const plans = await Plan.find();
         res.json(plans);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+//switch user plan
+router.put('/switch-plan/:userId', async (req, res) => {
+    
+    const { userId } = req.params;
+    const { planId } = req.body;
+
+    try {
+        //Finds the required user and plan by the means of Id
+        const user = await User.findById(userId);
+        const plan = await Plan.findById(planId);
+
+        //If either the user or the plan is not found, an error will be thrown
+        if (!user || !plan) {
+            return res.status(404).json({ message: "User or Plan not found" });
+        }
+
+
+        user.plan = plan._id;
+        await user.save();
+
+        res.status(200).json({
+            message: `Plan switched to ${plan.title}`,
+            user
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
